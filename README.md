@@ -1,6 +1,6 @@
 # Forecasting Daily Metrics for FP&A
 
-code for forecasting daily metrics using Facebook prophet model.
+code for forecasting daily metrics.
 
 Pipeline consists of
 1. data preparation, possible data transformation using box-cox/log
