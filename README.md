@@ -1,4 +1,4 @@
-# Forecasting Daily Metrics for FP&A
+# Forecasting Daily Metrics
 
 code for forecasting daily metrics.
 
