@@ -1,4 +1,4 @@
-from __future__ import division, print_function
+account_3from __future__ import division, print_function
 import logging
 import os
 import pandas as pd
@@ -15,15 +15,15 @@ from forecast_lib.account.base import ForecastBase, MetricBase
 
 class account(ForecastBase):
     """
-    Tripadivosr account class, child class of ForecastBase class, the child class specifies the tripadvisor specific get_booker_cc function,
+    account_3 account class, child class of ForecastBase class, the child class specifies the account_3 specific get_booker_cc function,
     every other attribute is inherited from the ForecastBase parent class.
     """
     def __init__(self,Metrics,run_date,forecast_horizon,optimizer,eval_level,pos,has_add_regressors,cv_type):
         super(account, self).__init__(Metrics,run_date,forecast_horizon,optimizer,eval_level,pos,has_add_regressors,cv_type)
 
     def get_booker_cc(self, account_partner_id = 404815):
-        # TODO: note that the current version does not specify which countries fall into LATAM for tripadvisor,
-        # this need to be further specified if necessary 
+        # TODO: note that the current version does not specify which countries fall into LATAM for account_3,
+        # this need to be further specified if necessary
         booker_cc_df = spark.table("default.bp_b_affiliate")\
                     .where("partner_id = {partner_id}".format(partner_id = account_partner_id))\
                     .select("name")\
@@ -51,9 +51,9 @@ class GrossBookings(MetricBase):
 
     def compute(self):
 
-        tripadvisorStats = TripAdvisorStats(start_date=self.start_date,end_date=self.end_date,pos=self.pos,
+        accountThreeStats = AccountThreeStats(start_date=self.start_date,end_date=self.end_date,pos=self.pos,
                                             agg_on=["yyyy_mm_dd", "pos"])
-        return ( tripadvisorStats.get_stats_summary()
+        return ( accountThreeStats.get_stats_summary()
                    .select("yyyy_mm_dd","pos",self.metric_name) )
 
 class RoomNights(MetricBase):
@@ -73,9 +73,9 @@ class RoomNights(MetricBase):
 
     def compute(self):
 
-        tripadvisorStats = TripAdvisorStats(start_date=self.start_date,end_date=self.end_date,pos=self.pos,
+        accountThreeStats = AccountThreeStats(start_date=self.start_date,end_date=self.end_date,pos=self.pos,
                                             agg_on=["yyyy_mm_dd", "pos"])
-        return ( tripadvisorStats.get_stats_summary()
+        return ( accountThreeStats.get_stats_summary()
                    .select("yyyy_mm_dd","pos",self.metric_name) )
 
 class CancelledRoomNights(MetricBase):
@@ -95,9 +95,9 @@ class CancelledRoomNights(MetricBase):
 
     def compute(self):
 
-        tripadvisorStats = TripAdvisorStats(start_date=self.start_date,end_date=self.end_date,pos=self.pos,
+        accountThreeStats = AccountThreeStats(start_date=self.start_date,end_date=self.end_date,pos=self.pos,
                                         agg_on=["yyyy_mm_dd", "pos"])
-        return ( tripadvisorStats.get_cancellations()
+        return ( accountThreeStats.get_cancellations()
                    .select("yyyy_mm_dd","pos",self.metric_name) )
 
 class Cancellations(MetricBase):
@@ -117,9 +117,9 @@ class Cancellations(MetricBase):
 
     def compute(self):
 
-        tripadvisorStats = TripAdvisorStats(start_date=self.start_date,end_date=self.end_date,pos=self.pos,
+        accountThreeStats = AccountThreeStats(start_date=self.start_date,end_date=self.end_date,pos=self.pos,
                                         agg_on=["yyyy_mm_dd", "pos"])
-        return ( tripadvisorStats.get_cancellations()
+        return ( accountThreeStats.get_cancellations()
                    .select("yyyy_mm_dd","pos",self.metric_name) )
 
 
@@ -140,9 +140,9 @@ class GrossCommission(MetricBase):
 
     def compute(self):
 
-        tripadvisorStats = TripAdvisorStats(start_date=self.start_date,end_date=self.end_date,pos=self.pos,
+        accountThreeStats = AccountThreeStats(start_date=self.start_date,end_date=self.end_date,pos=self.pos,
                                         agg_on=["yyyy_mm_dd", "pos"])
-        return ( tripadvisorStats.get_stats_summary()
+        return ( accountThreeStats.get_stats_summary()
                    .select("yyyy_mm_dd","pos",self.metric_name) )
 
 class CancelledCommission(MetricBase):
@@ -162,14 +162,14 @@ class CancelledCommission(MetricBase):
 
     def compute(self):
 
-        tripadvisorStats = TripAdvisorStats(start_date=self.start_date,end_date=self.end_date,pos=self.pos,
+        accountThreeStats = AccountThreeStats(start_date=self.start_date,end_date=self.end_date,pos=self.pos,
                                         agg_on=["yyyy_mm_dd", "pos"])
-        return ( tripadvisorStats.get_cancellations()
+        return ( accountThreeStats.get_cancellations()
                    .select("yyyy_mm_dd","pos",self.metric_name) )
 
-class TripAdvisorStats(object):
+class AccountThreeStats(object):
     """
-    TripAdvisorStats class, obtain data for relevant performance metrics
+    AccountThreeStats class, obtain data for relevant performance metrics
 
     Attributes:
         start_date  : string, the start date to obtain performance
@@ -189,7 +189,7 @@ class TripAdvisorStats(object):
 
     def __init__(self,start_date,end_date,pos=['All'],max_rpb=3000.0,partner_id=404815,
                 agg_on = ["hotel_id", "yyyy_mm_dd"],
-                costs_table = 'spmeta.trip_clickcost',
+                costs_table = 'spmeta.account_3_clickcost',
                 reservation_table = 'default.dw_reservation',
                 nits_score_table = 'nits.scores',
                 nits_postbook_table = 'default.reslog_nits_ng_postbooking_score',
@@ -217,8 +217,8 @@ class TripAdvisorStats(object):
             nits_bookings,gross_bookings,nits_profit,gross_profit
         """
 
-        # Note that the code is adapted from tripadvisor bidding production code
-        # https://gitlab.booking.com/ShopPPC/tripadvisor-bidding-production/blob/master/pyspark-
+        # Note that the code is adapted from account_3 bidding production code
+        # https://gitlab.booking.com/ShopPPC/account_3-bidding-production/blob/master/pyspark-
         # scripts/bidding/cpc_plain_bidder.py
         # we take TripAd reservations;
         # we use last click attribution so the hotel HAS to be taken
@@ -245,7 +245,7 @@ class TripAdvisorStats(object):
                 SELECT id affiliate_id
                 , name affiliate_name
                 FROM ${affiliate_table}
-                WHERE partner_id = ${tripad_partner_id}
+                WHERE partner_id = ${account_3_partner_id}
                 and name rlike '(${placement1}|${placement2})'
                 ) a
                 ON r.affiliate_id = a.affiliate_id
@@ -259,7 +259,7 @@ class TripAdvisorStats(object):
                 "placement2" : self.placements[1],
                 "end_date" : self.end_date,
                 "start_date" : self.start_date,
-                "tripad_partner_id" : self.partner_id,
+                "account_3_partner_id" : self.partner_id,
                 "reservation_table": self.reservation_table,
                 "affiliate_table": self.affiliate_table
                 })
@@ -427,7 +427,7 @@ class TripAdvisorStats(object):
         SELECT id affiliate_id
                , name affiliate_name
           FROM ${affiliate_table}
-         WHERE partner_id = ${tripad_partner_id}
+         WHERE partner_id = ${account_3_partner_id}
            AND name rlike '(${placement1}|${placement2})'
            ) a
         ON r.affiliate_id = a.affiliate_id
@@ -441,7 +441,7 @@ class TripAdvisorStats(object):
         """).substitute({
                 "reservation_table" : self.reservation_table,
                 "affiliate_table" : self.affiliate_table,
-                "tripad_partner_id" : self.partner_id,
+                "account_3_partner_id" : self.partner_id,
                 "start_date" : self.start_date,
                 "end_date" : self.end_date,
                 "placement1" : self.placements[0],

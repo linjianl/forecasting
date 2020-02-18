@@ -14,12 +14,12 @@ sc = spark.sparkContext
 
 from forecast_lib.account.base import ForecastBase, MetricBase
 # add the module to access mysql database
-sys.path.append(os.path.join(os.getenv("HOME"),"git_tree/metasearch/python/utils/"))
+sys.path.append(os.path.join(os.getenv("HOME"),"git_tree/partners/python/utils/"))
 import MetaUtils as mu
 
 class account(ForecastBase):
     """
-    Trivago account, child class of ForecastBase class, the child class specifies the Trivago account specific get_booker_cc,
+    account_4 account, child class of ForecastBase class, the child class specifies the account_4 account specific get_booker_cc,
     every other attributes inherit from ForecastBase class
 
     """
@@ -30,7 +30,7 @@ class account(ForecastBase):
         booker_cc_df = spark.table("default.bp_b_affiliate")\
                 .where("partner_id = {partner_id}".format(partner_id = account_partner_id))\
                 .select("name")\
-                .withColumn('pos', f.regexp_extract(f.col("name"), "Trivago_(.*?)\.",1))\
+                .withColumn('pos', f.regexp_extract(f.col("name"), "account_4_(.*?)\.",1))\
                 .select('pos')\
                 .distinct()\
                 .where("pos != ''").toPandas()
@@ -53,8 +53,8 @@ class GrossBookings(MetricBase):
 
     def compute(self):
 
-        trivagoStats = TrivagoStats(start_date=self.start_date,end_date=self.end_date,pos=self.pos,agg_on = ["yyyy_mm_dd", "pos"])
-        return ( trivagoStats.get_stats_summary()
+        accountFourStats = AccountFourStats(start_date=self.start_date,end_date=self.end_date,pos=self.pos,agg_on = ["yyyy_mm_dd", "pos"])
+        return ( accountFourStats.get_stats_summary()
                    .select("yyyy_mm_dd","pos",self.metric_name) )
 
 class RoomNights(MetricBase):
@@ -74,8 +74,8 @@ class RoomNights(MetricBase):
 
     def compute(self):
 
-        trivagoStats = TrivagoStats(start_date=self.start_date,end_date=self.end_date,pos=self.pos,agg_on = ["yyyy_mm_dd", "pos"])
-        return ( trivagoStats.get_stats_summary()
+        accountFourStats = AccountFourStats(start_date=self.start_date,end_date=self.end_date,pos=self.pos,agg_on = ["yyyy_mm_dd", "pos"])
+        return ( accountFourStats.get_stats_summary()
                    .select("yyyy_mm_dd","pos",self.metric_name) )
 
 class CancelledRoomNights(MetricBase):
@@ -95,8 +95,8 @@ class CancelledRoomNights(MetricBase):
 
     def compute(self):
 
-        trivagoStats = TrivagoStats(start_date=self.start_date,end_date=self.end_date,pos=self.pos,agg_on = ["yyyy_mm_dd", "pos"])
-        return ( trivagoStats.get_cancellations()
+        accountFourStats = AccountFourStats(start_date=self.start_date,end_date=self.end_date,pos=self.pos,agg_on = ["yyyy_mm_dd", "pos"])
+        return ( accountFourStats.get_cancellations()
                    .select("yyyy_mm_dd","pos",self.metric_name) )
 
 class Cancellations(MetricBase):
@@ -116,8 +116,8 @@ class Cancellations(MetricBase):
 
     def compute(self):
 
-        trivagoStats = TrivagoStats(start_date=self.start_date,end_date=self.end_date,pos=self.pos,agg_on = ["yyyy_mm_dd", "pos"])
-        return ( trivagoStats.get_cancellations()
+        accountFourStats = AccountFourStats(start_date=self.start_date,end_date=self.end_date,pos=self.pos,agg_on = ["yyyy_mm_dd", "pos"])
+        return ( accountFourStats.get_cancellations()
                    .select("yyyy_mm_dd","pos",self.metric_name) )
 
 
@@ -138,8 +138,8 @@ class GrossCommission(MetricBase):
 
     def compute(self):
 
-        trivagoStats = TrivagoStats(start_date=self.start_date,end_date=self.end_date,pos=self.pos,agg_on = ["yyyy_mm_dd", "pos"])
-        return ( trivagoStats.get_stats_summary()
+        accountFourStats = AccountFourStats(start_date=self.start_date,end_date=self.end_date,pos=self.pos,agg_on = ["yyyy_mm_dd", "pos"])
+        return ( accountFourStats.get_stats_summary()
                    .select("yyyy_mm_dd","pos",self.metric_name) )
 
 class CancelledCommission(MetricBase):
@@ -159,13 +159,13 @@ class CancelledCommission(MetricBase):
 
     def compute(self):
 
-        trivagoStats = TrivagoStats(start_date=self.start_date,end_date=self.end_date,pos=self.pos,agg_on = ["yyyy_mm_dd", "pos"])
-        return ( trivagoStats.get_cancellations()
+        accountFourStats = AccountFourStats(start_date=self.start_date,end_date=self.end_date,pos=self.pos,agg_on = ["yyyy_mm_dd", "pos"])
+        return ( accountFourStats.get_cancellations()
                    .select("yyyy_mm_dd","pos",self.metric_name) )
 
-class TrivagoStats(object):
+class accountFourStats(object):
     """
-    TrivagoStats class, obtain data for relevant performance metrics
+    accountFourStats class, obtain data for relevant performance metrics
 
     Attributes:
         start_date  : string, the start date to obtain performance
@@ -183,7 +183,7 @@ class TrivagoStats(object):
 
     def __init__(self,start_date,end_date,pos=['All'],
                 max_rpb = 3000.0, partner_id = 413084,
-                performance_table = 'spmeta.trivago_performance',
+                performance_table = 'spmeta.account_4_performance',
                 reservation_table = 'default.dw_reservation',
                 affiliate_table = 'default.bp_b_affiliate',
                 agg_on = ['hotel_id', 'yyyy_mm_dd']):
@@ -200,7 +200,7 @@ class TrivagoStats(object):
 
 
     def get_stats_summary(self):
-        """function to obtain performance stats for trivago at desired aggregated dimensions
+        """function to obtain performance stats for account_4 at desired aggregated dimensions
 
         Returns:
             spark dataframe with performance metrics of nits_bookings,gross_bookings,nits_profit,gross_profit,
@@ -272,7 +272,7 @@ class TrivagoStats(object):
                         affiliate_table = self.affiliate_table,
                         start_date = self.start_date,
                         end_date = self.end_date,
-                        trivago_partner_id = self.partner_id)
+                        account_4_partner_id = self.partner_id)
 
         cancellations = spark.sql(cancellation_query)
 
